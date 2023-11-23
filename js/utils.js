@@ -1,5 +1,5 @@
 var selector = (str) => document.querySelector(str);
-var selectors = (str) => document.querySelectorAll(str);
+var selectors = (strArr = []) => document.querySelectorAll(strArr);
 
 const isValidUrl = (urlString) => {
   var urlPattern = new RegExp(
@@ -50,24 +50,92 @@ const name_generator = (value) => {
   return name.join("-");
 };
 
-var addHiddenClass = () => {
-  var addClass = (selector) =>
-    !selector.classList.contains("is-hidden") &&
-    selector.classList.add("is-hidden");
+var addClass = (selector) =>
+  !selector.classList.contains("is-hidden") &&
+  selector.classList.add("is-hidden");
 
+var addHiddenClassToSearchError = () => {
   var emptyInputError = selector(".empty-input-error");
   var linkInputError = selector(".link-input-error");
   var valueInputError = selector(".value-input-error");
-  var availableSearches = selector(".available-searches");
-  var availableChapters = selector(".available-chapters");
-  var notFoundSearches = selector(".error-searches-not-found");
-
   emptyInputError && addClass(emptyInputError);
   linkInputError && addClass(linkInputError);
   valueInputError && addClass(valueInputError);
+};
+
+var addHiddenClass = () => {
+  addHiddenClassToSearchError();
+
+  var availableSearches = selector(".available-searches");
+  // var availableChapters = selector(".available-chapters");
+  var notFoundSearches = selector(".error-searches-not-found");
+  var internalError = selector(".internal-error");
+  var errorRangeInputInvalidValue = selector(
+    ".error-range-input-invalid-value"
+  );
+  var errorRangeInputValue = selector(".error-range-input-value");
+  var errorOutOfRangeValue = selector(".error-out-of-range-value");
+  var downloadButtonContainer = selector(".dowload-button-container");
+  var availableChapters = selector(".available-chapters");
+
   availableSearches && addClass(availableSearches);
-  availableChapters && addClass(availableChapters);
+  // availableChapters && addClass(availableChapters);
+  internalError && addClass(internalError);
   notFoundSearches && addClass(notFoundSearches);
+  errorRangeInputInvalidValue && addClass(errorRangeInputInvalidValue);
+  errorRangeInputValue && addClass(errorRangeInputValue);
+  errorOutOfRangeValue && addClass(errorOutOfRangeValue);
+  availableChapters && addClass(availableChapters);
+  downloadButtonContainer && addClass(downloadButtonContainer);
+};
+
+var waitFor = (wairFoFn, callback, timeout1 = 25, timeout2 = 2000) => {
+  var timeout;
+  timeout = setInterval(() => {
+    if (wairFoFn) {
+      clearInterval(timeout);
+      callback();
+    }
+  }, timeout1);
+  setTimeout(() => {
+    clearInterval(timeout);
+  }, timeout2);
+};
+
+const waitForElem = (waitFor, callback, minElements = 1, variable = false) => {
+  const checkElements = () => {
+    if (variable) {
+      return waitFor;
+    } else {
+      return window.document.querySelectorAll(waitFor);
+    }
+  };
+
+  var thisElem = checkElements(),
+    timeOut;
+  if (
+    (!variable && thisElem.length >= minElements) ||
+    (variable && typeof thisElem !== "undefined")
+  ) {
+    return callback(thisElem);
+  } else {
+    var interval = setInterval(() => {
+      thisElem = checkElements();
+      if (
+        (!variable && thisElem.length >= minElements) ||
+        (variable && typeof thisElem !== "undefined")
+      ) {
+        clearInterval(interval);
+        clearTimeout(timeOut);
+        return callback(thisElem);
+      }
+    }, 20);
+    timeOut = setTimeout(() => {
+      // Fallback
+      clearInterval(interval);
+      return callback(false);
+    }, 10000);
+  }
 };
 
 export {
@@ -76,5 +144,8 @@ export {
   isValidUrl,
   extractMangaNameFromUrl,
   addHiddenClass,
+  addHiddenClassToSearchError,
   name_generator,
+  waitForElem,
+  waitFor,
 };

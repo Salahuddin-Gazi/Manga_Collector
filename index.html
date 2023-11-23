@@ -22,6 +22,12 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> -->
     <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+      integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script async defer src="js/app.js" type="module"></script>
 
     <!-- For IE -->
@@ -42,8 +48,8 @@
         <div
           class="text-center p-3 mb-2 bg-danger text-light fs-5 fw-bold lh-sm"
         >
-          This is a beta version, so there will be issues like failing and
-          window freezing!
+          This is a beta version, there might be issues like failing and window
+          freezing!
         </div>
         <div class="main_nav">
           <a class="logo" href="index.html">
@@ -52,7 +58,7 @@
         </div>
       </header>
 
-      <div class="ftco-section center" id="convert">
+      <div class="ftco-section center">
         <h1 class="title">Manga Collector</h1>
         <p class="fs-5">
           Collect manga, currently available for
@@ -60,36 +66,44 @@
             class="text-danger fw-bold"
             style="text-decoration: underline !important"
             href="https://mangasee123.com/"
+            target="_blank"
             >Mangasee</a
           >
         </p>
 
-        <form id="search-form" class="search-form relative">
-          <div style="display: inline-block; position: relative">
-            <input
-              type="text"
-              id="txt-url"
-              name="query"
-              class="search__input"
-              aria-label="Search"
-              placeholder="Search keywords or paste manga link"
-              value=""
-              required
-            />
+        <div id="search-form" class="search-form relative">
+          <div class="search-form-field">
+            <div
+              style="display: inline-block; position: relative"
+              class="search-form-input-field"
+            >
+              <input
+                type="text"
+                id="txt-url"
+                name="query"
+                class="search__input"
+                aria-label="Search"
+                placeholder="Search keywords or paste manga link"
+                value=""
+                required
+              />
+            </div>
+            <button id="btn-submit" class="btn-red" type="submit">
+              Search
+            </button>
           </div>
-          <button id="btn-submit" class="btn-red" type="submit">Search</button>
-        </form>
 
-        <div class="error-input-value">
-          <p class="empty-input-error is-hidden text-danger fw-bold fs-5">
-            Please enter something before submit!!
-          </p>
-          <p class="link-input-error is-hidden text-danger fw-bold fs-5">
-            Please enter valid link!!
-          </p>
-          <p class="value-input-error is-hidden text-danger fw-bold fs-5">
-            Please enter valid keywords to search!!
-          </p>
+          <div class="error-input-value mt-3">
+            <p class="empty-input-error is-hidden text-danger fw-bold fs-5">
+              Please enter something before submit!!
+            </p>
+            <p class="link-input-error is-hidden text-danger fw-bold fs-5">
+              Please enter valid Mangasee link!!
+            </p>
+            <p class="value-input-error is-hidden text-danger fw-bold fs-5">
+              Please enter valid keywords to search!!
+            </p>
+          </div>
         </div>
 
         <div
@@ -97,6 +111,10 @@
         >
           <p>Searches not found!</p>
         </div>
+
+        <!-- <div class="internal-error is-hidden text-danger fw-bold fs-5">
+          <p>Internal Error, try later!</p>
+        </div> -->
 
         <div class="available-chapters is-hidden">
           <h3 class="my-4">
@@ -107,7 +125,7 @@
             Available Ranges <span class="range-start">1</span> -
             <span class="range-end">100</span>
           </p>
-          <form>
+          <div class="collect-manga-form">
             <div
               class="form-control d-flex p-2 justify-content-center align-items-center gap-3"
             >
@@ -132,15 +150,33 @@
                 />
               </div>
             </div>
-            <button id="btn-collect" class="btn-red my-2" type="submit">
+            <button id="btn-collect" class="btn-red my-2" type="button">
               Start Collecting
             </button>
             <input type="hidden" name="manga-max-chapter" value="" />
             <input type="hidden" name="manga-name" value="" />
-          </form>
-          <p class="error-range-value is-hidden text-danger fw-bold fs-5">
-            You have entered an out of range value
-          </p>
+            <div class="error-collector-input-value mt-3">
+              <p
+                class="error-range-input-value is-hidden text-danger fw-bold fs-5"
+              >
+                Please enter a start value!!
+              </p>
+              <p
+                class="error-range-input-invalid-value is-hidden text-danger fw-bold fs-5"
+              >
+                Please enter a valid start number value!!
+              </p>
+              <p
+                class="error-out-of-range-value is-hidden text-danger fw-bold fs-5"
+              >
+                You have entered an out of range value!!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="internal-error is-hidden text-danger fw-bold fs-5">
+          <p>Internal Error, try later!</p>
         </div>
 
         <div class="chapter-loading is-hidden my-3">
@@ -150,6 +186,15 @@
               class="chapter-prgress-percentage text-danger text-bold"
             ></span>
           </p>
+          <div class="guidance-text">
+            <p>
+              If chapters show missing, try again with a smaller range input.
+            </p>
+            <p>
+              When downloading as PDF, it downloads images so speed depends on
+              your internet.
+            </p>
+          </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -178,7 +223,11 @@
           </svg>
         </div>
 
-        <div class="show-chapters"></div>
+        <div
+          class="dowload-button-container d-flex flex-wrap gap-4 justify-content-center is-hidden"
+        ></div>
+
+        <div class="show-chapters my-5"></div>
       </div>
     </div>
 

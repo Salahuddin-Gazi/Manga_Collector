@@ -14,7 +14,29 @@ var chapterURLEncode = function (e) {
 };
 
 export default (url) =>
-  fetch(url)
+  // fetch(url)
+  fetch(url, {
+    headers: {
+      accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "accept-language": "en-US,en;q=0.9,la;q=0.8",
+      "sec-ch-ua":
+        '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"Windows"',
+      "sec-fetch-dest": "document",
+      "sec-fetch-mode": "navigate",
+      "sec-fetch-site": "same-origin",
+      "sec-fetch-user": "?1",
+      "upgrade-insecure-requests": "1",
+    },
+    referrer: "https://mangasee123.com/",
+    referrerPolicy: "strict-origin-when-cross-origin",
+    body: null,
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
+  })
     .then(function (response) {
       return response.text();
     })
@@ -32,7 +54,7 @@ export default (url) =>
     .catch(function (err) {
       // There was an error
       console.log("error occured!", err);
-      // return { error: true, err };
+      throw { chapter: "not-found" };
     })
     .finally(() => {
       return { chapter: "not-found" };

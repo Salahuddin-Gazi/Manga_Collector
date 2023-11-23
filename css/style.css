@@ -17,7 +17,7 @@
 .chapter-title {
   padding: 5px 10px;
   border: solid 5px #ffbb00;
-  margin: 28px 0;
+  /* margin: 28px 0; */
   /* max-width: 220px; */
   font-weight: bold;
   font-size: 20px;
@@ -53,4 +53,69 @@
   bottom: 20px;
   right: 20px;
   display: none;
+}
+
+.chapter-links,
+.chapter-not-found {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.chapter-links-to-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -khtml-border-radius: 50%;
+  border-radius: 50%;
+  padding: 10px;
+  border: none;
+  color: #fdfdfe !important;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.chapter-links-to-view.is-active {
+  line-height: 0.5;
+  background: red;
+  box-shadow: 0 4px 10px rgba(255, 86, 63, 0.4);
+}
+
+.download-as-html {
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+.dowload-button-container {
+  padding: 25px 0 17px;
+  border: 2px solid red;
+  position: relative;
+  margin-top: 4rem !important;
+}
+
+.dowload-button-container p {
+  position: absolute;
+  /* top: -19px; */
+  top: calc(-3rem + -15px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  font-size: 18px;
+  padding: 5px;
+  width: calc(100% - 130px);
+  font-weight: 600;
+  max-width: 250px;
+}
+
+#manga__name {
+  font-weight: 600;
+  margin-bottom: 3rem;
+}
+
+@media screen and (max-width: 360px) {
+  .dowload-button-container {
+    gap: 0;
+  }
 }

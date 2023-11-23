@@ -1,6 +1,7 @@
 import { selector } from "./utils.js";
 
 const createPDF = (findChapterWeb, manga_name, chapterToBeCollect) => {
+  // console.log('From Create PDF');
   alert(
     "Site may freeze while downloading as PDF, do not close or reload when processing"
   );
@@ -133,8 +134,12 @@ const createPDF = (findChapterWeb, manga_name, chapterToBeCollect) => {
       .finally(() => {
         !selector(".chapter-loading").classList.contains("is-hidden") &&
           selector(".chapter-loading").classList.add("is-hidden");
-        // selector(".download-as-pdf").classList.contains("is-hidden") &&
-        //   selector(".download-as-pdf").classList.remove("is-hidden");
+
+        selector(".dowload-button-container").classList.contains("is-hidden") &&
+          selector(".dowload-button-container").classList.remove("is-hidden");
+
+        selector("#search-form").classList.contains("is-hidden") &&
+          selector("#search-form").classList.remove("is-hidden");
       });
   } catch (error) {
     alert("There has been a problem, try again later!");
